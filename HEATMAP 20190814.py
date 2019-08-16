@@ -2,7 +2,7 @@
 GEOGRAPHIC HEATMAP OF $ CONCENTRATIONS
 
 AUTHOR:     Gerard Mazi
-EMAIL:      gerard.mazi@homestreet.com
+EMAIL:      gerard.mazi@gmail.com
 PHONE:      862.221.2477
 """
 
