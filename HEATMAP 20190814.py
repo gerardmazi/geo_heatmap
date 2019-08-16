@@ -2,31 +2,38 @@
 GEOGRAPHIC HEATMAP OF $ CONCENTRATIONS
 
 AUTHOR:     Gerard Mazi
-EMAIL:      gerard.mazi@gmail.com
+EMAIL:      gerard.mazi@homestreet.com
 PHONE:      862.221.2477
 """
 
 import pandas as pd
 import folium
-import os
-import requests
 
+# Raw data
 geo = pd.read_csv('geo.csv')
 
-wa = geo.loc[
-    geo.PrimaryAddressStateCode=='WA',
-    ['PrimaryAddressPostalCode','CurrentLedgerBalance']
-]
+# Data for analytics
+zip = geo.loc[geo.PrimaryAddressStateCode=='WA',
+             ['PrimaryAddressPostalCode','CurrentLedgerBalance']]
 
-osm = folium.Map([43, -100], zoom_start=4)
+zip['PrimaryAddressPostalCode'] = zip['PrimaryAddressPostalCode'].astype('str')
+
+zip = zip.groupby('PrimaryAddressPostalCode', as_index = False).sum()
+
+# Create choropleth
+osm = folium.Map(location=[47.35, -121.9], zoom_start=8)
 
 url = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/wa_washington_zip_codes_geo.min.json'
-zip = requests.get(url)
 
-osm.choropleth(
-    geo_str = open(zip.json()).read(),
-    data = wa,
+folium.Choropleth(
+    geo_data = url,
+    data = zip,
     columns = ['PrimaryAddressPostalCode','CurrentLedgerBalance'],
-    key_on = 'feature.id',
+    key_on = 'feature.properties.ZCTA5CE10',
     fill_color = 'YlGn',
-)
+    fill_opacity=0.7,
+    line_opacity=0.2,
+    legend_name='Deposits by Zip Code'
+).add_to(osm)
+
+osm.save("./wa.html")
