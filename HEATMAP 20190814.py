@@ -36,7 +36,7 @@ all_zip = []
 for s in states:
     for i in range(len(s['features'])):
         all_zip.append(s['features'][i])
-del s, i, states
+del s, i, states, url
 
 # Create a json file out of the aggregated features
 geojson = dict.fromkeys(['type','features'])           # Empty json file
@@ -103,7 +103,7 @@ open('cleaned_geodata.json',
 del geozips, geodata, json_file, new_json, i
 
 # Read updated GEO data
-url = 'cleaned_geodata.json'
+final_geo_data = 'cleaned_geodata.json'
 
 # Import branch coordinates
 branch = pd.read_csv('branch.csv', encoding = "ISO-8859-1")
@@ -129,7 +129,7 @@ map = folium.Map(
 )
 
 folium.Choropleth(
-    geo_data = url,
+    geo_data = final_geo_data,
     data = codes,
     columns = ['PrimaryAddressPostalCode','CurrentLedgerBalance'],
     key_on = 'feature.properties.ZCTA5CE10',
