@@ -14,16 +14,21 @@ import requests
 #################################################################################################################
 # JSON FILE PREP
 # Import zip codes from json file and add zip codes to complete dataset
-WA = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/wa_washington_zip_codes_geo.min.json'
-OR = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/or_oregon_zip_codes_geo.min.json'
-CA = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/ca_california_zip_codes_geo.min.json'
-HI = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/hi_hawaii_zip_codes_geo.min.json'
+url = 'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/'
 
 states = [
-    json.loads(requests.get(WA).text),
-    json.loads(requests.get(OR).text),
-    json.loads(requests.get(CA).text),
-    json.loads(requests.get(HI).text)
+    json.loads(requests.get(
+        url + 'wa_washington_zip_codes_geo.min.json'
+    ).text),
+    json.loads(requests.get(
+        url + 'or_oregon_zip_codes_geo.min.json'
+    ).text),
+    json.loads(requests.get(
+        url + 'ca_california_zip_codes_geo.min.json'
+    ).text),
+    json.loads(requests.get(
+        url + 'hi_hawaii_zip_codes_geo.min.json'
+    ).text)
 ]
 
 # Aggregate all features of targeted json files
